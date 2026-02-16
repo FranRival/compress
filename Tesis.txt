@@ -1,0 +1,11 @@
+***Es un ejecutable nacido de uploader.
+***Su objetivo es evitar salir del flujo de trabajo.
+***ir a buscar la carpeta correcta donde estaba el codigo python de compresion de imagenes.
+***entrar a la hoja de python y cambiar los valores de la ruta. 
+***Ejecutar el archivo en powershell. 
+
+
+****Ahora sera un ejecutable. Una ventana con un input para pegar la ruta 
+----Modificar visor para copiar y pegar la ruta donde se guardan las imagenes.
+****un boton de Compress para hacer el proces.
+****un boton para abrir la ruta de la ubicacion de las imagenes comprimidas
