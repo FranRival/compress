@@ -1,19 +1,17 @@
 import os
-import subprocess
 from PIL import Image
 import tkinter as tk
 from tkinter import messagebox
 
-# === CONFIGURACION ===
 MAX_ANCHO = 1000
 CALIDAD = 75
 
-carpeta_salida_global = None  # Para usarla en botón "Abrir"
+carpeta_salida_global = None
 
 def comprimir_imagenes():
     global carpeta_salida_global
 
-    carpeta_entrada = entry_ruta.get()
+    carpeta_entrada = entry_ruta.get().strip()
 
     if not os.path.isdir(carpeta_entrada):
         messagebox.showerror("Error", "Ruta no válida")
@@ -28,8 +26,8 @@ def comprimir_imagenes():
     for archivo in os.listdir(carpeta_entrada):
         if archivo.lower().endswith((".jpg", ".jpeg", ".png")):
             ruta_entrada = os.path.join(carpeta_entrada, archivo)
-            nombre_sin_ext = os.path.splitext(archivo)[0]
-            ruta_salida = os.path.join(carpeta_salida, nombre_sin_ext + ".jpg")
+            nombre = os.path.splitext(archivo)[0]
+            ruta_salida = os.path.join(carpeta_salida, nombre + ".jpg")
 
             with Image.open(ruta_entrada) as img:
                 img = img.convert("RGB")
@@ -50,33 +48,24 @@ def comprimir_imagenes():
 
             contador += 1
 
-    messagebox.showinfo("Listo", f"Compresión terminada\nImágenes procesadas: {contador}")
+    messagebox.showinfo("Listo", f"{contador} imágenes procesadas")
 
 def abrir_carpeta():
     if carpeta_salida_global and os.path.isdir(carpeta_salida_global):
         os.startfile(carpeta_salida_global)
-    else:
-        messagebox.showwarning("Aviso", "Primero debes comprimir imágenes.")
 
 # === INTERFAZ ===
 ventana = tk.Tk()
-ventana.title("Image Compressor")
-ventana.geometry("420x180")
+ventana.title("Compressor")
 ventana.resizable(False, False)
 
-label = tk.Label(ventana, text="Ruta de las imágenes:")
-label.pack(pady=5)
+entry_ruta = tk.Entry(ventana, width=50)
+entry_ruta.pack(padx=6, pady=4)
 
-entry_ruta = tk.Entry(ventana, width=55)
-entry_ruta.pack(pady=5)
+frame = tk.Frame(ventana)
+frame.pack(pady=3)
 
-frame_botones = tk.Frame(ventana)
-frame_botones.pack(pady=15)
-
-boton_compress = tk.Button(frame_botones, text="Compress", width=15, command=comprimir_imagenes)
-boton_compress.grid(row=0, column=0, padx=10)
-
-boton_abrir = tk.Button(frame_botones, text="Abrir carpeta", width=15, command=abrir_carpeta)
-boton_abrir.grid(row=0, column=1, padx=10)
+tk.Button(frame, text="Compress", width=12, command=comprimir_imagenes).pack(side="left", padx=3)
+tk.Button(frame, text="Abrir", width=12, command=abrir_carpeta).pack(side="left", padx=3)
 
 ventana.mainloop()
